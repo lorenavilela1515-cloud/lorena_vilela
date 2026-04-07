@@ -1,5 +1,5 @@
 # Arquivo: 02-importacao-manipulacao.R
-# Autor(a): João Silva
+# Autor(a): Lorena Vilela
 # Data: 30/03/26
 # Objetivos:
 # 1. Importar um arquivo csv de dados
