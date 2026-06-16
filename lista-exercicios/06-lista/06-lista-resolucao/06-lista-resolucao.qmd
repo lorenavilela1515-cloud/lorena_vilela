@@ -1,0 +1,197 @@
+---
+lang: pt-BR
+title: "Resolução da Lista de Exercícios 6"
+author: "Lorena Vilela"
+date: today
+format:
+  html:
+    theme: flatly
+    embed-resources: true
+    toc: true
+execute:
+  eval: true
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+
+# Exibe valores numéricos sem notação científica
+options(digits = 5, scipen = 999)
+
+# pacotes utilizados
+library(here)
+library(tidyverse)
+library(tidyplots)
+
+# Permite que os gráficos do tidyplots usem o espaço disponível no HTML
+tidyplots_options(width = NA, height = NA)
+
+# Importa o objeto dados_marketing_limpos.rds
+caminho_dados <- here("dados/limpos/dados_marketing_limpos.rds")
+dados_marketing <- read_rds(caminho_dados)
+```
+
+
+
+## Exercício 1
+
+# Calculos questões A, B e C. 
+
+dados_marketing |>
+  summarize(
+    media = mean(gasto_total),
+    mediana = median(gasto_total),
+    desvio_padrao = sd(gasto_total),
+    IQR = IQR(gasto_total),
+    p5 = quantile(gasto_total, 0.05),
+    q1 = quantile(gasto_total, 0.25),
+    mediana_q = quantile(gasto_total, 0.50),
+    q3 = quantile(gasto_total, 0.75),
+    p95 = quantile(gasto_total, 0.95)
+  )
+ 
+
+
+
+**c.** 
+# p5 = 84,14: aproximadamente 5% das semanas tiveram gasto total inferior a 
+# US$ 84,14 mil.
+# q1 = 99,56: cerca de 25% das semanas tiveram gasto inferior a US$ 99,56 mil.
+# Mediana = 110,25: metade das semanas teve gasto abaixo desse valor e metade 
+# acima.
+# q3 = 122,13: cerca de 75% das semanas tiveram gasto inferior a US$ 122,13 mil.
+# p95 = 152,49: aproximadamente 95% das semanas tiveram gasto inferior a 
+# US$ 152,49 mil.
+
+
+
+
+**d.** 
+# Valor típico
+# A média (US$ 112,76 mil) e a mediana (US$ 110,25 mil) são relativamente 
+# próximas, indicando que a distribuição não apresenta assimetria extrema.
+# Ainda assim, a mediana é mais robusta a semanas com gastos excepcionalmente
+# altos. Por isso, eu utilizaria a mediana para representar o investimento 
+# semanal típico.
+
+# Dispersão
+
+# O desvio-padrão e o IQR medem a variabilidade dos gastos. 
+# O IQR é menos afetado por semanas com gastos muito altos ou muito baixos, 
+# pois considera apenas os 50% centrais dos dados. Já o desvio-padrão utiliza 
+# todas as observações e é mais sensível a valores extremos.
+
+# Semanas atípicas
+
+# A faixa que concentra aproximadamente 90% das semanas está entre US$ 84,14 mil
+# (p5) e US$ 152,49 mil (p95).
+
+# Assim, semanas com investimento acima de US$ 152,49 mil pertencem aos 
+# 5% maiores gastos observados e merecem atenção especial da equipe.
+
+
+
+
+## Exercício 2
+
+
+```{r}
+# Dados sobre o desempenho semanal (R$ mil) de duas equipes de vendas
+desempenho_equipes <- tibble(
+  equipe = rep(c("A", "B"), each = 10),
+  desempenho = c(85, 92, 78, 110, 95, 105, 115, 98, 102, 250,
+                 120, 115, 125, 118, 122, 130, 115, 120, 125, 122)
+)
+```
+
+
+resumo <- desempenho_equipes |>
+  group_by(equipe) |>
+  summarize(
+    n = n(),
+    media = mean(desempenho),
+    desvio_padrao = sd(desempenho),
+    amplitude = max(desempenho) - min(desempenho),
+    IQR = IQR(desempenho),
+    CV = 100 * sd(desempenho) / mean(desempenho)
+  )
+
+resumo
+
+**Qual equipe teve o desempenho mais consistente? Em qual medida você se baseou?**
+
+
+# A Equipe B apresentou o desempenho mais consistente. Essa conclusão é 
+# sustentada principalmente pelo coeficiente de variação (CV), que foi de 
+# apenas 3,96%, enquanto a Equipe A apresentou CV de 39,32%. 
+# O desvio-padrão também reforça essa conclusão, pois a Equipe B teve uma 
+# dispersão muito menor dos resultados em torno da média.
+
+**Quais medidas o valor 250 da Equipe A afeta mais? E qual delas quase não muda?**
+
+# O valor 250 afeta fortemente a amplitude, o desvio-padrão e o coeficiente de 
+# variação, pois essas medidas utilizam diretamente os valores extremos da 
+# amostra. Como 250 está muito distante dos demais desempenhos da Equipe A, 
+# ele aumenta significativamente essas medidas de dispersão. Por outro lado, 
+# o IQR é pouco afetado por esse valor extremo, pois é calculado apenas com base
+# nos quartis da distribuição, ignorando as observações mais extremas.
+
+**Com esses dados, você afirmaria que uma equipe é melhor que a outra?**
+**O que mais você precisaria saber antes de concluir?**
+
+# Não é possível afirmar que uma equipe é melhor que a outra apenas com essas 
+# medidas de dispersão. Os resultados mostram que a Equipe B é mais consistente, 
+# mas consistência não significa necessariamente melhor desempenho.
+# Antes de concluir, seria importante analisar também medidas de tendência 
+# central, como média e mediana, além de informações sobre metas de vendas, 
+# tamanho das equipes, número de clientes atendidos, condições de mercado e a 
+# origem do valor extremo 250. Caso esse valor represente uma venda excepcional 
+# legítima, ele pode indicar um potencial de desempenho que as medidas de 
+# dispersão sozinhas não capturam.
+
+
+
+## Exercício 3
+
+
+**a.** 
+
+
+
+**b.** 
+
+
+
+**c.**
+
+
+
+
+**d.**
+
+
+
+
+## Exercício 4
+
+
+**a.**
+
+
+
+
+**b.** 
+
+
+
+
+**c.**
+
+
+
+
+**d.**
+
