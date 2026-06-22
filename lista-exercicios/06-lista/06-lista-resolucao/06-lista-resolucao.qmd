@@ -156,7 +156,26 @@ resumo
 
 ## Exercício 3
 
+dados_marketing |>
+  tidyplot(x = gasto_total) |>
+  add_histogram(bins = 12) |>
+  add_title("Distribuição do gasto total semanal em marketing") |>
+  add_x_axis_title("Gasto total (US$ mil)") |>
+  add_y_axis_title("Número de semanas") |>
+  add_caption("Fonte: dados_marketing")
 
+
+# Foram utilizadas 12 classes porque a base possui 156 semanas, permitindo
+# visualizar a forma geral da distribuição sem excesso de detalhamento nem 
+# agrupamento excessivo.
+
+dados_marketing |>
+  tidyplot(x = "", y = gasto_total) |>
+  add_boxplot() |>
+  add_y_axis_title("Gasto total (US$ mil)") |>
+  add_caption("Fonte: dados_marketing")
+  
+  
 **a.** 
 
 
@@ -176,6 +195,25 @@ resumo
 
 
 ## Exercício 4
+
+
+dados_marketing |>
+  tidyplot(x = status_concorrencia,
+           y = receita_vendas) |>
+  add_boxplot() |>
+  add_x_axis_title("Status da concorrência") |>
+  add_y_axis_title("Receita de vendas (US$ mil)") |>
+  add_caption("Fonte: dados_marketing")
+  
+  
+  dados_marketing |>
+  group_by(status_concorrencia) |>
+  summarize(
+    n = n(),
+    media = mean(receita_vendas),
+    mediana = median(receita_vendas),
+    CV = 100 * sd(receita_vendas) / mean(receita_vendas)
+  )
 
 
 **a.**
