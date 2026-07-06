@@ -40,18 +40,20 @@ tidyplots_options(width = NA, height = NA)
 caminho_dados <- here("dados/brutos/belezar_vendas_diarias.csv")
 
 # Lê o arquivo CSV e cria o objeto dados_belezar
-dados_belezar <- read_csv(caminho_dados)
+belezar_vendas_diarias <- read_csv(caminho_dados)
 ```
 
-library (readr)
-belezar_vendas_diarias <- read_csv("avaliacoes/03-avaliacao/belezar_vendas_diarias.csv")
-View(belezar_vendas_diarias)
 
 
 # Questão 1 
 
 
-**a)** belezar_vendas_diarias |>
+**a)** 
+
+
+```{r}
+
+belezar_vendas_diarias |>
   summarize(
     media = mean(receita),
     mediana = median(receita),
@@ -64,6 +66,9 @@ View(belezar_vendas_diarias)
     p95 = quantile(receita, 0.95),
     p90 = quantile (receita, 0.90)
   )
+```
+
+
 
 
 
@@ -85,8 +90,11 @@ de 10% dos dias apresentaram receita superior a esse valor.
 
 # Questão 2
 
-**a)** library(tidyplots)
+**a)** 
 
+
+```{r}
+library(tidyplots)
 belezar_vendas_diarias |>
   tidyplot(x = receita) |>
   add_histogram(
@@ -97,6 +105,9 @@ belezar_vendas_diarias |>
   adjust_y_axis_title("Frequência") |>
   add_caption("Fonte: Belezar Cosméticos") |>
   adjust_font(fontsize = 14)
+```
+
+
 
 
 
@@ -115,7 +126,10 @@ Questão 1.
 # Questão 3
 
 
-**a)** library(tidyplots)
+**a)** 
+```{r}
+
+library(tidyplots)
 
 belezar_vendas_diarias |>
   tidyplot(x = status_promocao, y = receita) |>
@@ -124,6 +138,9 @@ belezar_vendas_diarias |>
   adjust_y_axis_title("Receita (R$ mil)") |>
   add_caption("Fonte: Belezar Cosméticos") |>
   adjust_font(fontsize = 14)
+```
+
+
 
 
 
